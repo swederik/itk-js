@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.10)
+project(HelloInsight)
+
+find_package(ITK REQUIRED)
+include(${ITK_USE_FILE})
+
+set(hello_SRCS helloInsight.cxx)
+if(EMSCRIPTEN)
+  include(ITKBridgeJavaScript)
+  web_add_executable(hello ${hello_SRCS})
+  web_target_link_libraries(hello ${ITK_LIBRARIES})
+else()
+  add_executable(hello ${hello_SRCS})
+  target_link_libraries(hello ${ITK_LIBRARIES})
+endif()
